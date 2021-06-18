@@ -1,0 +1,29 @@
+---
+title: "Population"
+author: "Daniel Chen"
+date: "6/17/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r}
+x <- read_csv("Population.csv", col_types = cols(value = col_character()))
+y <- read_csv("Capital.csv", col_types = cols(value = col_character()))
+z <- read_csv("Incidents.csv", col_types = cols(value = col_character()))
+v <- read_csv("State.csv", col_types = cols(value = col_character()))
+t <- bind_cols(y, x) %>% 
+  rename(State = value...1, Population = value...2) %>% 
+  arrange(y, by_group = FALSE)
+
+e <- bind_cols(v, z) %>% 
+  rename(State = value...1, Crime_rate = value...2) %>% 
+  arrange(v, by_group = FALSE)
+bind_cols(t, e) %>% 
+  mutate(State = State...1, State...3)
+  
+```
+
