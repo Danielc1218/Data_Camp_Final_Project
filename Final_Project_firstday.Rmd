@@ -18,11 +18,11 @@ v <- read_csv("State.csv", col_types = cols(value = col_character()))
 w <- read_csv("Population_2010.csv", col_types = cols(value = col_character()))
 u <- read_csv("Incidents_2010.csv", col_types = cols(value = col_character()))
 t <- bind_cols(y, x) %>% 
-  rename(State = value...1, "Population(2019)" = value...2) %>% 
+  rename(State = value...1, Population_2019 = value...2) %>% 
   arrange(y, by_group = FALSE)
 
 e <- bind_cols(v, z) %>% 
-  rename(State = value...1, "Crime_rate(2019)" = value...2) %>% 
+  rename(State = value...1, Crime_rate_2019 = value...2) %>% 
   arrange(v, by_group = FALSE)
 
 c <- bind_cols(t, e) %>% 
@@ -30,18 +30,19 @@ c <- bind_cols(t, e) %>%
   select(-State...1, -State...3)
   
 a <- bind_cols(y, w) %>% 
-   rename(State = value...1, "Population(2010)" = value...2) %>% 
+   rename(State = value...1, Population_2010 = value...2) %>% 
   arrange(y, by_group = FALSE)
 
 b <- bind_cols(v, u) %>% 
-   rename(State = value...1, "Crime_rate(2010)" = value...2) %>% 
+   rename(State = value...1, Crime_rate_2010 = value...2) %>% 
   arrange(y, by_group = FALSE) 
 
 d <- bind_cols(a, b) %>% 
   mutate(State = State...1) %>% 
   select(-State...1, -State...3)
 
-left_join(c, d) 
+final_data <- left_join(c, d) %>% 
+  parse_integer(Population_2010)
 
 
 ```
