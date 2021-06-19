@@ -74,7 +74,7 @@ state_crime <- ggplot(data = final_data, mapping = aes(x = State, y = rate, fill
   scale_y_continuous()+
   geom_col(position = "dodge")+
   labs(title = "State and Crime rate in 2010 and 2019",
-       x = "State",
+       x = "State/US territory",
        y = "Crime Rate")+
   theme(plot.title = element_text(size = 10),
          axis.title.x = element_text(size = 10),
@@ -85,8 +85,8 @@ state_pop <- ggplot(data = final_data, mapping = aes(x = State, y = pop, fill = 
   scale_y_continuous()+
   geom_col(position = "dodge")+
   labs(title = "State and Population in 2010 and 2019",
-       x = "State",
-       y = "Population")+
+       x = "State/US territory",
+       y = "Population(Millions)")+
   theme(plot.title = element_text(size = 10),
         axis.title.x = element_text(size = 10),
         axis.title.y = element_text(size = 10))
@@ -98,7 +98,8 @@ rough_graph <- ggarrange(state_crime, state_pop,
           ncol = 1, nrow = 2)
 
 annotate_figure(rough_graph,
-                top = text_grob(""))
+                top = text_grob("Population and Crime rate in 2010 and 2019 in each state and US territory", size = 11, face = "bold"),
+                bottom = text_grob("Source: Wikipedia",hjust = -2,  size = 10, face = "italic"))
 ```
 
 
