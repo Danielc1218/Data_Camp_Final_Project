@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(ggpubr)
 ```
 
 ```{r}
@@ -66,12 +67,38 @@ crime_data <- all_data %>%
 final_data <- inner_join(pop_data, crime_data)
 ```
 
+
 ```{r}
-ggplot(data = final_data, mapping = aes(x = State, y = rate, fill = year))+
+state_crime <- ggplot(data = final_data, mapping = aes(x = State, y = rate, fill = year))+
   theme(axis.text.x = element_text(angle = 60, hjust = 1))+
   scale_y_continuous()+
-  geom_col(position = "dodge")
+  geom_col(position = "dodge")+
+  labs(title = "State and Crime rate in 2010 and 2019",
+       x = "State",
+       y = "Crime Rate")+
+  theme(plot.title = element_text(size = 10),
+         axis.title.x = element_text(size = 10),
+         axis.title.y = element_text(size = 10))
 
+state_pop <- ggplot(data = final_data, mapping = aes(x = State, y = pop, fill = year))+
+    theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  scale_y_continuous()+
+  geom_col(position = "dodge")+
+  labs(title = "State and Population in 2010 and 2019",
+       x = "State",
+       y = "Population")+
+  theme(plot.title = element_text(size = 10),
+        axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10))
+```
+
+
+```{r}
+rough_graph <- ggarrange(state_crime, state_pop, 
+          ncol = 1, nrow = 2)
+
+annotate_figure(rough_graph,
+                top = text_grob(""))
 ```
 
 
