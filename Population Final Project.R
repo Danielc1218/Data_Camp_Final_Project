@@ -48,5 +48,5 @@ raw_data_8 <- read_html(url) %>%
    as_tibble() %>% 
    slice(1:58)
 
-write_csv(raw_data_6, "Population_2010.csv")
-write_csv(raw_data_8, "Incidents_2010.csv")
+write_csv(raw_data_6, "Population.csv")
+write_csv(raw_data_8, "Incidents.csv")

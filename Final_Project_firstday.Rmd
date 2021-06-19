@@ -8,6 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(scales)
+library(officer)
+library(gcookbook)
 ```
 
 ```{r}
@@ -42,7 +45,14 @@ d <- bind_cols(a, b) %>%
   select(-State...1, -State...3)
 
 final_data <- left_join(c, d) %>% 
-  parse_integer(Population_2010)
+  mutate(Population_2010 = parse_number(Population_2010)) %>% 
+  mutate(Population_2019 = parse_number(Population_2019)) %>% 
+  mutate(Population_2010 = Population_2010/1000000) %>% 
+  mutate(population_2019 = Population_2019/1000000)
+
+ggplot(data = final_data, mapping = aes(x = State, y = Population_2010))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  geom_col()
 
 
 ```
