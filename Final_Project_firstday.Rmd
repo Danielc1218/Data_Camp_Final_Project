@@ -8,9 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(scales)
-library(officer)
-library(gcookbook)
 ```
 
 ```{r}
@@ -44,16 +41,38 @@ d <- bind_cols(a, b) %>%
   mutate(State = State...1) %>% 
   select(-State...1, -State...3)
 
-final_data <- left_join(c, d) %>% 
+```
+
+
+```{r}
+all_data <- left_join(c, d) %>% 
   mutate(Population_2010 = parse_number(Population_2010)) %>% 
   mutate(Population_2019 = parse_number(Population_2019)) %>% 
   mutate(Population_2010 = Population_2010/1000000) %>% 
-  mutate(population_2019 = Population_2019/1000000)
+  mutate(Population_2019 = Population_2019/1000000) %>% 
+  mutate(Crime_rate_2010 = parse_number(Crime_rate_2010)) %>% 
+  mutate(Crime_rate_2019 = parse_number(Crime_rate_2019))
 
-ggplot(data = final_data, mapping = aes(x = State, y = Population_2010))+
+pop_data <- all_data %>% 
+  select(State, Population_2010, Population_2019) %>% 
+  rename("2010" = Population_2010, "2019" = Population_2019) %>% 
+    pivot_longer(names_to = "year", values_to = "pop", cols = c("2010", "2019"))
+
+crime_data <- all_data %>% 
+  select(State, Crime_rate_2010, Crime_rate_2019) %>% 
+    rename("2010" = Crime_rate_2010, "2019" = Crime_rate_2019) %>% 
+  pivot_longer(names_to = "year", values_to = "rate", cols = c("2010", "2019")) 
+
+final_data <- inner_join(pop_data, crime_data)
+```
+
+```{r}
+ggplot(data = final_data, mapping = aes(x = State, y = rate, fill = year))+
   theme(axis.text.x = element_text(angle = 60, hjust = 1))+
-  geom_col()
-
+  scale_y_continuous()+
+  geom_col(position = "dodge")
 
 ```
+
+
 
