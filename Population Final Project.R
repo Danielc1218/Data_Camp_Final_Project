@@ -28,9 +28,9 @@ raw_data_4 <- read_html(url) %>%
   slice(7:58) 
   
 write_csv(raw_data_4, "State.csv")
-write_csv(raw_data_2, "Population.csv")
-write_csv(raw_data, "Capital.csv")
-write_csv(raw_data_3, "Incidents.csv")
+write_csv(raw_data_2, "Population_2019.csv")
+write_csv(raw_data, "State_1.csv")
+write_csv(raw_data_3, "Incidents_2019.csv")
 
 
 url <- "https://simple.wikipedia.org/wiki/List_of_U.S._states_by_population"
@@ -48,5 +48,5 @@ raw_data_8 <- read_html(url) %>%
    as_tibble() %>% 
    slice(1:58)
 
-write_csv(raw_data_6, "Population.csv")
-write_csv(raw_data_8, "Incidents.csv")
+write_csv(raw_data_6, "Population_2010.csv")
+write_csv(raw_data_8, "Incidents_2010.csv")
