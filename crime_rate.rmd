@@ -1,0 +1,18 @@
+---
+title: "Source for Crime Rates"
+description: "https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_violent_crime_rate includes a list of crime rates through 2010 and 2019. The table includes all 50 states as well as Puerto Rico and the District of Columbia. The crime rates are all calulated per 100,000 inhabitants"
+author:
+  - name: Daniel Chen
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+
+
+

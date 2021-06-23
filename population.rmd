@@ -1,0 +1,18 @@
+---
+title: "Source for Population"
+description: "https://simple.wikipedia.org/wiki/List_of_U.S._states_by_population, includes a list of the population of all 50 states, including Puerto Rico, the District of Columbia, Guam, the US Virgin Islands, American Samoa, and the Northern Mariana Islands. It displays the population of these states and territories in both 2010 and 2019"
+author:
+  - name: Daniel Chen 
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+
+
+

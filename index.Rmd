@@ -1,0 +1,111 @@
+---
+title: "Final Project"
+description: "Comparing Population and Crime ratesin 2010 and 2019"
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(ggpubr)
+library(ggthemes)
+library(knitr)
+library(rmarkdown)
+library(gt)
+```
+
+```{r CSV-and-data-table}
+a <- read_csv("Population_2019.csv", col_types = cols(value = col_character()))
+b <- read_csv("State_1.csv", col_types = cols(value = col_character()))
+c <- read_csv("Incidents_2019.csv", col_types = cols(value = col_character()))
+d <- read_csv("State.csv", col_types = cols(value = col_character()))
+e <- read_csv("Population_2010.csv", col_types = cols(value = col_character()))
+f <- read_csv("Incidents_2010.csv", col_types = cols(value = col_character()))
+#This part reads the different csv' and establishing them into variables
+g <- bind_cols(b, a) %>% 
+  rename(State = value...1, Population_2019 = value...2) %>% 
+  arrange(b, by_group = FALSE)
+
+h <- bind_cols(d, c) %>% 
+  rename(State = value...1, Crime_rate_2019 = value...2) %>% 
+  arrange(d, by_group = FALSE)
+
+i <- bind_cols(g, h) %>% 
+  mutate(State = State...1, State...3) %>% 
+  select(-State...1, -State...3)
+  
+j <- bind_cols(b, e) %>% 
+   rename(State = value...1, Population_2010 = value...2) %>% 
+  arrange(b, by_group = FALSE)
+
+k <- bind_cols(d, f) %>% 
+   rename(State = value...1, Crime_rate_2010 = value...2) %>% 
+  arrange(b, by_group = FALSE) 
+
+l <- bind_cols(j, k) %>% 
+  mutate(State = State...1) %>% 
+  select(-State...1, -State...3)
+#This chunk of code binds the different csv' into the final table that is used in the graph
+```
+```{r Final-data-table}
+all_data <- left_join(i, l) %>% 
+  mutate(Population_2010 = parse_number(Population_2010)) %>% 
+  mutate(Population_2019 = parse_number(Population_2019)) %>% 
+  mutate(Population_2010 = Population_2010/1000000) %>% 
+  mutate(Population_2019 = Population_2019/1000000) %>% 
+  mutate(Crime_rate_2010 = parse_number(Crime_rate_2010)) %>% 
+  mutate(Crime_rate_2019 = parse_number(Crime_rate_2019)) 
+#Combines the final data table and mutates some columns from chr to int, also changes the population so that numbers on the graph can be shown clearly
+pop_data <- all_data %>% 
+  select(State, Population_2010, Population_2019) %>% 
+  rename("2010" = Population_2010, "2019" = Population_2019) %>% 
+    pivot_longer(names_to = "year", values_to = "pop", cols = c("2010", "2019"))
+#Selects data from the mass data table on population, and adds the column for which year the data belongs to
+crime_data <- all_data %>% 
+  select(State, Crime_rate_2010, Crime_rate_2019) %>% 
+    rename("2010" = Crime_rate_2010, "2019" = Crime_rate_2019) %>% 
+  pivot_longer(names_to = "year", values_to = "rate", cols = c("2010", "2019")) 
+#Selects data from the mass data table on Crime rate, and adds the column for which year the data belongs to
+final_data <- inner_join(pop_data, crime_data)
+#Combines the selected data into a final clean data table that differentiates between the two years
+```
+```{r Rough-Graphs}
+state_crime <- ggplot(data = final_data, mapping = aes(x = State, y = rate, fill = year))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  scale_y_continuous()+
+  geom_col(position = "dodge")+
+  labs(title = "State and Crime rate in 2010 and 2019",
+       x = "State/US territory",
+       y = "Crime Rate(Per 100,000)")+
+  theme(plot.title = element_text(size = 10),
+         axis.title.x = element_text(size = 10),
+         axis.title.y = element_text(size = 8))
+#Graphs the plot for crime rates
+state_pop <- ggplot(data = final_data, mapping = aes(x = State, y = pop, fill = year))+
+    theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  scale_y_continuous()+
+  geom_col(position = "dodge")+
+  labs(title = "State and Population in 2010 and 2019",
+       x = "State/US territory",
+       y = "Population(Millions)")+
+  theme(plot.title = element_text(size = 10),
+        axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 8))
+#Graphs the plot for Population
+```
+```{r Final-Graph}
+rough_graph <- ggarrange(state_crime, state_pop, 
+          ncol = 1, nrow = 2)
+#Uses a different package ggpubr, and the function ggarrange in order to put both graphs on one page
+Finished_Graph <- annotate_figure(rough_graph,
+                top = text_grob("Population and Crime rate in 2010 and 2019 in each state and US territory", size = 11, face = "bold"),
+                bottom = text_grob("Source: Wikipedia",hjust = -1,  size = 10, face = "italic"))
+#From ggpubr, annotate_figure allowed for labels and captions on the page
+Finished_Graph
+```
+```{r Table}
+kable(final_data %>% 
+  rename("Population in millions" = pop) %>% 
+  rename("Crime rate per 100,000" = rate))
+```
+
