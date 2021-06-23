@@ -1,6 +1,6 @@
 ---
-title: "Final Project"
-description: "Comparing Population and Crime ratesin 2010 and 2019"
+title: "Crime and Population"
+description: "Comparing Population and Crime rates in 2010 and 2019"
 site: distill::distill_website
 ---
 
