@@ -47,6 +47,8 @@ l <- bind_cols(j, k) %>%
   select(-State...1, -State...3)
 #This chunk of code binds the different csv' into the final table that is used in the graph
 ```
+
+
 ```{r Final-data-table}
 all_data <- left_join(i, l) %>% 
   mutate(Population_2010 = parse_number(Population_2010)) %>% 
@@ -69,6 +71,8 @@ crime_data <- all_data %>%
 final_data <- inner_join(pop_data, crime_data)
 #Combines the selected data into a final clean data table that differentiates between the two years
 ```
+
+
 ```{r Rough-Graphs}
 state_crime <- ggplot(data = final_data, mapping = aes(x = State, y = rate, fill = year))+
   theme(axis.text.x = element_text(angle = 60, hjust = 1))+
@@ -93,6 +97,8 @@ state_pop <- ggplot(data = final_data, mapping = aes(x = State, y = pop, fill = 
         axis.title.y = element_text(size = 6))
 #Graphs the plot for Population
 ```
+
+
 ```{r Final-Graph}
 rough_graph <- ggarrange(state_crime, state_pop, 
           ncol = 1, nrow = 2)
@@ -103,6 +109,8 @@ Finished_Graph <- annotate_figure(rough_graph,
 #From ggpubr, annotate_figure allowed for labels and captions on the page
 Finished_Graph
 ```
+
+
 ```{r Table}
 kable(final_data %>% 
   rename("Population in millions" = pop) %>% 

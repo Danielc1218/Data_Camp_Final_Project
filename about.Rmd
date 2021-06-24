@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 Having recently studied about criminals for one of my english projects, this topic continued to interest me which compelled my decision about finding different correlations between criminals in the US. Furthermore, the topic of a correlation between Population and Crime rate seemed very interesting as there can be multiple factors within population that influence crime rate, but what about Population as a whole.
 
 ## **About the Project**
-The project features two separate graphs which compare the population and the crime rate in both 2010 and 2019 for all US states as well as the District of Columbia, and Puerto Rico. This displays that there is an unlikely correlation between pure population and crime rate as shown in california, where an increase in population correlated with a decrease in crime rate, yet the District of Columbia shows a positive increase in both.
+The project features two separate graphs which compare the population and the crime rate in both 2010 and 2019 for all US states as well as the District of Columbia, and Puerto Rico. Since there is no clear majority in states that show an increase in crime rates or a decrease, and as all the states have had an increase in population, it can be concluded that there is no correlation between pure population and crime rate in the US.
 
 ### Goals
 * Explore a correlation or no correlation between Population and Crime rate
