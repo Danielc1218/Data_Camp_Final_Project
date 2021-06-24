@@ -40,7 +40,7 @@ j <- bind_cols(b, e) %>%
 
 k <- bind_cols(d, f) %>% 
    rename(State = value...1, Crime_rate_2010 = value...2) %>% 
-  arrange(b, by_group = FALSE) 
+  arrange(d, by_group = FALSE) 
 
 l <- bind_cols(j, k) %>% 
   mutate(State = State...1) %>% 
